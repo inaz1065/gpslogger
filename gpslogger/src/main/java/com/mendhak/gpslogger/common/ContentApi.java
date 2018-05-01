@@ -43,18 +43,10 @@ public class ContentApi extends ContentProvider {
 
         String queryType = uri.getPathSegments().get(0);
         LOG.debug(queryType);
-        String result;
-
-        switch(queryType){
-            case "gpslogger_folder":
-                result = preferenceHelper.getGpsLoggerFolder();
-                break;
-            default:
-                result = "NULL";
-                break;
+        String result = "NULL";
+        if(queryType == "gpslogger_folder"){
+            result = preferenceHelper.getGpsLoggerFolder();
         }
-
-
         LOG.debug(result);
         MatrixCursor matrixCursor = new MatrixCursor(new String[] { "Column1" });
 
