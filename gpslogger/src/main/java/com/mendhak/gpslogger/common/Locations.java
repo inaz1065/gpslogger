@@ -21,28 +21,46 @@ package com.mendhak.gpslogger.common;
 
 
 import android.location.Location;
+import android.support.annotation.NonNull;
 
 public class Locations {
 
 
     public static Location getLocationWithAdjustedAltitude(Location loc, PreferenceHelper ph) {
+        return getLocation(loc, ph);
+    }
+
+    @NonNull
+    private static Location getLocation(Location loc, PreferenceHelper ph) {
         if(!loc.hasAltitude()){ return loc; }
 
+        AdjustAltitudeFromGeoIdHeightAndGetExtraIsNotNull(loc, ph);
+
+        LocationHasAltAndSubtractAltOffsetIsNotNull(loc, ph);
+
+        return loc;
+    }
+
+    private static void AdjustAltitudeFromGeoIdHeightAndGetExtraIsNotNull(Location loc, PreferenceHelper ph) {
         if(ph.shouldAdjustAltitudeFromGeoIdHeight() && loc.getExtras() != null){
             String geoidheight = loc.getExtras().getString(BundleConstants.GEOIDHEIGHT);
-            if (!Strings.isNullOrEmpty(geoidheight)) {
-                loc.setAltitude((float) loc.getAltitude() - Float.valueOf(geoidheight));
-            }
-            else {
-                //If geoid height not present for adjustment, don't record an elevation at all.
-                loc.removeAltitude();
-            }
+            GeoIdHeight_IsNullOrEmpty(loc, geoidheight);
         }
+    }
 
+    private static void LocationHasAltAndSubtractAltOffsetIsNotNull(Location loc, PreferenceHelper ph) {
         if(loc.hasAltitude() && ph.getSubtractAltitudeOffset() != 0){
             loc.setAltitude(loc.getAltitude() - ph.getSubtractAltitudeOffset());
         }
+    }
 
-        return loc;
+    private static void GeoIdHeight_IsNullOrEmpty(Location loc, String geoidheight) {
+        if (!Strings.isNullOrEmpty(geoidheight)) {
+            loc.setAltitude((float) loc.getAltitude() - Float.valueOf(geoidheight));
+        }
+        else {
+            //If geoid height not present for adjustment, don't record an elevation at all.
+            loc.removeAltitude();
+        }
     }
 }
