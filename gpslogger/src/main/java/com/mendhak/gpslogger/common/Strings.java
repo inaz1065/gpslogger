@@ -166,18 +166,23 @@ public class Strings {
      * @param desc
      * @return
      */
+    private static String getReplace(String desc, String charSequence, String charSequence1) {
+        return desc.replace(charSequence, charSequence1);
+    }
     public static String cleanDescriptionForXml(String desc) {
-        desc = desc.replace("<", "");
-        desc = desc.replace(">", "");
-        desc = desc.replace("&", "&amp;");
-        desc = desc.replace("\"", "&quot;");
+        desc = getReplace(desc, "<", "");
+        desc = getReplace(desc,">", "");
+        desc = getReplace(desc,"&", "&amp;");
+        desc = getReplace(desc,"\"", "&quot;");
 
         return desc;
     }
 
+
+
     public static String cleanDescriptionForJson(String desc){
-        desc = desc.replace("\"", "");
-        desc = desc.replace("\\","");
+        desc = getReplace(desc,"\"", "");
+        desc = getReplace(desc,"\\","");
         return desc;
     }
 
@@ -376,13 +381,13 @@ public class Strings {
         Matcher imgMatcher = Pattern.compile("(!\\[[^\\]]+\\]\\((?!http)[^\\)]+\\))", Pattern.MULTILINE).matcher(md);
         while(imgMatcher.find()){
             String group = imgMatcher.group(1);
-            output = output.replace(group,"");
+            output = getReplace(output,group,"");
         }
 
         Matcher linkMatcher = Pattern.compile("\\[[^\\]]+\\]\\(((?!http)[^\\)]+)\\)", Pattern.MULTILINE).matcher(md);
         while(linkMatcher.find()){
             String group = linkMatcher.group(1);
-            output = output.replace(group,"http://code.mendhak.com/gpslogger/"+group);
+            output = getReplace(output,group,"http://code.mendhak.com/gpslogger/"+group);
         }
 
         return output;
