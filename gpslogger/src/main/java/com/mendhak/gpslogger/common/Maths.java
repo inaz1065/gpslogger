@@ -44,8 +44,8 @@ public class Maths {
 
         double deltaLatitude = getDeltaLatitude(latitude1, latitude2);
         double deltaLongitude = getDeltaLatitude(longitude1, longitude2);
-        double latitude1Rad = Math.toRadians(latitude1);
-        double latitude2Rad = Math.toRadians(latitude2);
+        double latitude1Rad = getLatitudeToRad(latitude1);
+        double latitude2Rad = getLatitudeToRad(latitude2);
 
         double a = Math.pow(Math.sin(deltaLatitude / 2), 2) +
                 (Math.cos(latitude1Rad) * Math.cos(latitude2Rad) * Math.pow(Math.sin(deltaLongitude / 2), 2));
@@ -54,6 +54,10 @@ public class Maths {
 
         return 6371 * c * 1000; //Distance in meters
 
+    }
+
+    private static double getLatitudeToRad(double latitude1) {
+        return Math.toRadians(latitude1);
     }
 
     private static double getDeltaLatitude(double latitude1, double latitude2) {
