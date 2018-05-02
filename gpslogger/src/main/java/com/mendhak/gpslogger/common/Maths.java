@@ -42,8 +42,8 @@ public class Maths {
             All angles are in radians
             */
 
-        double deltaLatitude = Math.toRadians(Math.abs(latitude1 - latitude2));
-        double deltaLongitude = Math.toRadians(Math.abs(longitude1 - longitude2));
+        double deltaLatitude = getDeltaLatitude(latitude1, latitude2);
+        double deltaLongitude = getDeltaLatitude(longitude1, longitude2);
         double latitude1Rad = Math.toRadians(latitude1);
         double latitude2Rad = Math.toRadians(latitude2);
 
@@ -54,6 +54,10 @@ public class Maths {
 
         return 6371 * c * 1000; //Distance in meters
 
+    }
+
+    private static double getDeltaLatitude(double latitude1, double latitude2) {
+        return Math.toRadians(Math.abs(latitude1 - latitude2));
     }
 
     /**
