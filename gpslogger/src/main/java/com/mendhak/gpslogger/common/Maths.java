@@ -78,12 +78,17 @@ public class Maths {
         if(loc.getExtras() != null){
             sat = loc.getExtras().getInt("satellites",0);
 
-            if (sat == 0) {
-                //Provider gave us nothing, let's look at our bundled count
-                sat = loc.getExtras().getInt(BundleConstants.SATELLITES_FIX, 0);
-            }
+            sat = getSat(loc, sat);
         }
 
+        return sat;
+    }
+
+    private static int getSat(Location loc, int sat) {
+        if (sat == 0) {
+            //Provider gave us nothing, let's look at our bundled count
+            sat = loc.getExtras().getInt(BundleConstants.SATELLITES_FIX, 0);
+        }
         return sat;
     }
 
