@@ -47,13 +47,17 @@ public class Maths {
         double latitude1Rad = getLatitudeToRad(latitude1);
         double latitude2Rad = getLatitudeToRad(latitude2);
 
-        double a = Math.pow(Math.sin(deltaLatitude / 2), 2) +
-                (Math.cos(latitude1Rad) * Math.cos(latitude2Rad) * Math.pow(Math.sin(deltaLongitude / 2), 2));
+        double a = getaVar(deltaLatitude, deltaLongitude, latitude1Rad, latitude2Rad);
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return 6371 * c * 1000; //Distance in meters
 
+    }
+
+    private static double getaVar(double deltaLatitude, double deltaLongitude, double latitude1Rad, double latitude2Rad) {
+        return Math.pow(Math.sin(deltaLatitude / 2), 2) +
+                (Math.cos(latitude1Rad) * Math.cos(latitude2Rad) * Math.pow(Math.sin(deltaLongitude / 2), 2));
     }
 
     private static double getLatitudeToRad(double latitude1) {
