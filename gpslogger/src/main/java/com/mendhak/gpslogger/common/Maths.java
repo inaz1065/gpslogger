@@ -49,10 +49,14 @@ public class Maths {
 
         double a = getaVar(deltaLatitude, deltaLongitude, latitude1Rad, latitude2Rad);
 
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double c = getcVar(a);
 
         return 6371 * c * 1000; //Distance in meters
 
+    }
+
+    private static double getcVar(double a) {
+        return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
     private static double getaVar(double deltaLatitude, double deltaLongitude, double latitude1Rad, double latitude2Rad) {
