@@ -124,6 +124,37 @@ public class Systems {
 
             String language, country="";
 
+            UserSpecifiedLocaleContains userSpecifiedLocaleContains = new UserSpecifiedLocaleContains(userSpecifiedLocale, country).invoke();
+            language = userSpecifiedLocaleContains.getLanguage();
+            country = userSpecifiedLocaleContains.getCountry();
+
+            Locale locale = new Locale(language, country);
+            Locale.setDefault(locale);
+            resources.getConfiguration().locale = locale;
+            baseContext.getResources().updateConfiguration(resources.getConfiguration(), baseContext.getResources().getDisplayMetrics());
+
+        }
+    }
+
+    private static class UserSpecifiedLocaleContains {
+        private String userSpecifiedLocale;
+        private String country;
+        private String language;
+
+        public UserSpecifiedLocaleContains(String userSpecifiedLocale, String country) {
+            this.userSpecifiedLocale = userSpecifiedLocale;
+            this.country = country;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public UserSpecifiedLocaleContains invoke() {
             if(userSpecifiedLocale.contains("-")){
                 language = userSpecifiedLocale.split("-")[0];
                 country = userSpecifiedLocale.split("-")[1];
@@ -131,12 +162,7 @@ public class Systems {
             else {
                 language = userSpecifiedLocale;
             }
-
-            Locale locale = new Locale(language, country);
-            Locale.setDefault(locale);
-            resources.getConfiguration().locale = locale;
-            baseContext.getResources().updateConfiguration(resources.getConfiguration(), baseContext.getResources().getDisplayMetrics());
-
+            return this;
         }
     }
 }
