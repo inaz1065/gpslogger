@@ -300,18 +300,26 @@ public class Strings {
         String result = df.format(meters) + context.getString(R.string.meters);
 
         if(imperial){
-            if (!autoscale || (meters <= 804)){
+            if (isNotAutoscaleOrMeterBelow804(meters, autoscale)){
                 result = df.format(meters * 3.2808399) + context.getString(R.string.feet);
             }
             else {
                 result = df.format(meters/1609.344) + context.getString(R.string.miles);
             }
         }
-        else if(autoscale && (meters >= 1000)) {
+        else if(isAutoscaleAndMetersOver1000(meters, autoscale)) {
             result = df.format(meters/1000) + context.getString(R.string.kilometers);
         }
 
         return result;
+    }
+
+    private static boolean isNotAutoscaleOrMeterBelow804(double meters, boolean autoscale) {
+        return !autoscale || (meters <= 804);
+    }
+
+    private static boolean isAutoscaleAndMetersOver1000(double meters, boolean autoscale) {
+        return autoscale && (meters >= 1000);
     }
 
     public static String getTimeDisplay(Context context, long milliseconds) {
