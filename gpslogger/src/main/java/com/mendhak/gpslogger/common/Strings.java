@@ -245,14 +245,22 @@ public class Strings {
 
     public static String getFormattedFileName(Session session, PreferenceHelper ph) {
         String currentFileName = session.getCurrentFileName();
-        if (ph.shouldCreateCustomFile() && !Strings.isNullOrEmpty(currentFileName)) {
+        if (phShouldCreateCustomFileAndNoIsNullOrEmpty(ph, currentFileName)) {
             return getFormattedCustomFileName(currentFileName, GregorianCalendar.getInstance(), ph);
         } else {
-            if (!Strings.isNullOrEmpty(currentFileName) && ph.shouldPrefixSerialToFileName() && !currentFileName.contains(String.valueOf(getBuildSerial()))) {
+            if (notIsNullOrEmptyFileNameAndShouldPrefixSerialToFileNameAndCurrentFileNameIsNotContainBuildSerial(ph, currentFileName)) {
                 currentFileName = String.valueOf(getBuildSerial()) + "_" + currentFileName;
             }
         }
         return currentFileName;
+    }
+
+    private static boolean notIsNullOrEmptyFileNameAndShouldPrefixSerialToFileNameAndCurrentFileNameIsNotContainBuildSerial(PreferenceHelper ph, String currentFileName) {
+        return !Strings.isNullOrEmpty(currentFileName) && ph.shouldPrefixSerialToFileName() && !currentFileName.contains(String.valueOf(getBuildSerial()));
+    }
+
+    private static boolean phShouldCreateCustomFileAndNoIsNullOrEmpty(PreferenceHelper ph, String currentFileName) {
+        return ph.shouldCreateCustomFile() && !Strings.isNullOrEmpty(currentFileName);
     }
 
     public static String getFormattedCustomFileName(String baseName, Calendar calendar, PreferenceHelper ph){
