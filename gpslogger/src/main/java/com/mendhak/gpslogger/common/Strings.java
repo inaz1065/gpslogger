@@ -344,7 +344,7 @@ public class Strings {
                 displayName = new Locale(foundLocale).getDisplayName(new Locale("en"));
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (isSdkOverLollipop()) {
                 displayName = Locale.forLanguageTag(foundLocale).getDisplayName(Locale.forLanguageTag(foundLocale));
 
                 if (displayName.equalsIgnoreCase(foundLocale)) {
@@ -357,6 +357,10 @@ public class Strings {
 
 
         return locales;
+    }
+
+    private static boolean isSdkOverLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static String getSanitizedMarkdownForFaqView(String md){
